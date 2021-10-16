@@ -3,32 +3,29 @@ from flask_cors import CORS, cross_origin
 import sqlite3 as sl
 import databse_helper as dbh
 
-db = sl.connect('penguin-protocol.db')
 
-
+with sl.connect('penguin-protocol.db') as db:
+    dbh.drop_all_db(db)
+    dbh.create_db(db)
+    dbh.fill_tables_test(db)
 
 api = Flask(__name__)
 cors = CORS(api)
 
-@api.route("/get_all_reviews", methods=["GET"])
+@api.route("/get-all-reviews", methods=["GET"])
 def get_all_reviews():
     pass
 
-@api.route("/add_review", methods=["POST"])
+@api.route("/add-review", methods=["POST"])
 def add_review():
     pass
 
-@api.route("/test", methods=["GET"])
-def get_test():
-    return jsonify({"test": 1234}), 200
-
-
-@api.route("/post", methods=["POST"])
-def post_test():
-    data = request.json
-    print(data)
-
-    return jsonify({"success": True, "input": data}), 201
+@api.route("/get-table-names", methods=["GET"])
+def get_table_names():
+    with sl.connect('penguin-protocol.db') as db:
+        db.row_factory = sl.Row
+        rows = dbh.print_db(db)
+        return json.dumps([dict(x) for x in rows])
 
 
 if __name__ == "__main__":
