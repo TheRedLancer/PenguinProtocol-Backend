@@ -57,10 +57,10 @@ def print_db(database: Connection) -> None:
 def drop_all_db(database: Connection):
     cur = database.cursor()
     cur.executescript("""
-        DROP TABLE REVIEW;
-        DROP TABLE USER;
-        DROP TABLE PROGRAM;
-        DROP TABLE LOCATION;
+        DROP TABLE IF EXISTS REVIEW;
+        DROP TABLE IF EXISTS USER;
+        DROP TABLE IF EXISTS PROGRAM;
+        DROP TABLE IF EXISTS LOCATION;
     """)
 
 def select_db(database: Connection, sel: str, table: str, where: str = ""):
@@ -72,9 +72,10 @@ def select_db(database: Connection, sel: str, table: str, where: str = ""):
     rows = cur.execute(query).fetchall()
     return rows
 
-def add_instance(database: Connection, table: str, entry: dict):
+def add_instance(database: Connection, table: str, entry):
     cur = database.cursor()
-    cur.execute("INSERT INTO ? VALUES ?", (table, entry))
+    q_marks = "?," * len(entry)
+    cur.execute("INSERT INTO " + table + " VALUES (" + q_marks[0:-1] + ")", entry)
 
 def fill_table_test(database: Connection):
     sql_file = open("add-crap.sql", "r")

@@ -1,14 +1,14 @@
 INSERT INTO LOCATION (lid, name, address, city, country)
     VALUES
-        (1, "pizza", "123 South", "Spokane", "WA"),
-        (2, "tacos", "555 North", "Spokane", "WA"),
-        (3, "burger", "983 West", "Seattle", "WA"),
-        (4, "pizza", "123 South", "Los Angeles", "CA");
+        (1, "pizza", "123 South", "Spokane", "US"),
+        (2, "tacos", "555 North", "Spokane", "US"),
+        (3, "burger", "983 West", "Seattle", "US"),
+        (4, "pizza", "123 South", "Los Angeles", "US");
     
 INSERT INTO PROGRAM (pid, name, school, city, country)
     VALUES
-        (5, "gu-in-florence", "Gonzaga University", "Spokane", "WA"),
-        (6, "UW-in-Brazil", "University of Washington", "Seattle", "WA");
+        (5, "gu-in-florence", "Gonzaga University", "Florence", "Italy"),
+        (6, "UW-in-Brazil", "University of Washington", "Rio", "Brazil");
 
 INSERT INTO USER (uid, name, sem_attend, program)
     VALUES
