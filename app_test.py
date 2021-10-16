@@ -13,12 +13,20 @@ def database():
 
     db.row_factory = sl.Row
     r = dbh.print_db(db)
-    r = json.dumps([dict(ix) for ix in r])
+    r = json.dumps([dict(ix) for ix in r], indent=4)
     print(r)
 
+    #dbh.fill_table_test(db)
+
     r = dbh.select_db(db, "*", "REVIEW", "stars = 5")
-    r = json.dumps([dict(ix) for ix in r])
+    r = json.dumps([dict(ix) for ix in r], indent=4)
     print(r)
+
+    print("*" * 20)
+
+    r = requests.get("http://localhost/basic-query", data=json.dumps({"sel": "*", "table": "REVIEW", "where": "stars > 4"}), headers={'Content-type': 'application/json'})
+    r = json.dumps([dict(ix) for ix in r], indent=4)
+    print(r.text)
 
 def main():
     #r = requests.get("http://localhost/test")

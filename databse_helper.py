@@ -74,4 +74,11 @@ def select_db(database: Connection, sel: str, table: str, where: str = ""):
 
 def add_instance(database: Connection, table: str, entry: dict):
     cur = database.cursor()
-    cur.execute("INSERT INTO ?")
+    cur.execute("INSERT INTO ? VALUES ?", (table, entry))
+
+def fill_table_test(database: Connection):
+    sql_file = open("add-crap.sql", "r")
+    data = sql_file.read()
+    sql_file.close()
+    with database:
+        database.executescript(data)
