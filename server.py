@@ -1,13 +1,22 @@
 from flask import Flask, json, jsonify, request
 from flask_cors import CORS, cross_origin
+import sqlite3 as sl
+import databse_helper as dbh
 
-# this data would NOT be in app memory, but rather saved to disk
-# this could be in a database, a file, or some other process
-id = 0
-noteList = []
+db = sl.connect('penguin-protocol.db')
+
+
 
 api = Flask(__name__)
 cors = CORS(api)
+
+@api.route("/get_all_reviews", methods=["GET"])
+def get_all_reviews():
+    pass
+
+@api.route("/add_review", methods=["POST"])
+def add_review():
+    pass
 
 @api.route("/test", methods=["GET"])
 def get_test():
@@ -16,7 +25,8 @@ def get_test():
 
 @api.route("/post", methods=["POST"])
 def post_test():
-    data = request.json["input"]
+    data = request.json
+    print(data)
 
     return jsonify({"success": True, "input": data}), 201
 
