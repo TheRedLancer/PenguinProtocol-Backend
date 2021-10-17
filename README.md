@@ -16,6 +16,8 @@ headers = {
 returns = {
     'rows' = list["attr1", "attr2", "attr3"]
 }
+
+
 POST /add-location
 payload = {
     'name': str,
@@ -30,6 +32,8 @@ returns = {
     'id': int,
     'success': bool
 }
+
+
 POST /add-user
 payload = {
     'name': str,
@@ -43,6 +47,8 @@ returns = {
     'id': int,
     'success': bool
 }
+
+
 POST /add-review
 payload = {
     'user': str,
@@ -59,6 +65,8 @@ returns = {
     'id': int,
     'success': bool
 }
+
+
 POST /add-program
 payload = {
     'name': str,
