@@ -1,3 +1,4 @@
+from flask.json import jsonify
 import requests
 import json
 import sqlite3 as sl
@@ -9,21 +10,21 @@ def database():
         #dbh.drop_all_db(db)
         dbh.create_db(db)
         
-        r = dbh.select_db(db, "*", "REVIEW")
-        print(r)
+        # r = dbh.select_db(db, "*", "REVIEW")
+        # print(r)
 
-        db.row_factory = sl.Row
-        r = dbh.print_db(db)
-        r = json.dumps([dict(ix) for ix in r], indent=4)
-        print(r)
+        # db.row_factory = sl.Row
+        # r = dbh.print_db(db)
+        # r = json.dumps([dict(ix) for ix in r], indent=4)
+        # print(r)
 
-        #dbh.fill_table_test(db)
+        # #dbh.fill_table_test(db)
 
-        r = dbh.select_db(db, "*", "REVIEW", "stars = 5")
-        r = json.dumps([dict(ix) for ix in r], indent=4)
-        print(r)
+        # r = dbh.select_db(db, "*", "REVIEW", "stars = 5")
+        # r = json.dumps([dict(ix) for ix in r], indent=4)
+        # print(r)
 
-        print("*" * 20)
+        # print("*" * 20)
 
         # r = requests.get(url + "/basic-query", data=json.dumps({"sel": "*", "table": "REVIEW", "where": "stars >= 4"}), headers={'Content-type': 'application/json'})
         # print(r.text)
@@ -34,10 +35,18 @@ def database():
         # print("add_location() entry:", entry)
         # dbh.add_instance(db, "LOCATION (name, address, city, country)", entry)
 
-        data = """{"name": "bagels", "address": "999 Second", "city": "Toronto", "country": "Canada"}"""
-        r = requests.post(url + "/add-location", data=data, headers={'Content-type': 'application/json'})
-        print(r)
-    
+        # data = """{"name": "bagels", "address": "999 Second", "city": "Toronto", "country": "Canada"}"""
+        # r = requests.post(url + "/add-location", data=data, headers={'Content-type': 'application/json'})
+        # print(r)
+        
+        # rows = dbh.select_db(db, "*", "PROGRAM")
+        # # print(json.dumps({"rows": rows}, indent=4))
+        # # print(rows_json)
+        # for row in rows["rows"]:
+        #     print(row)
+        # #print(json.dumps({"rows": rows}, indent=4))
+        r = requests.get(url + "/basic-query", data=json.dumps({"sel": "*", "table": "PROGRAM", "where": ""}), headers={'Content-type': 'application/json'})
+        print(json.dumps(json.loads(r.text), indent=2))  
 
 
 def main():

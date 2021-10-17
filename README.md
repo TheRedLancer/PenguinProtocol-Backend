@@ -4,9 +4,11 @@
 GET /get-table-names </br>
 <p>
 GET /basic-query
+```json
     {
         "sel": selection (str)
         "table": table (str)
         "where": where (str)
-    } </p>
+    } ```
+    </p>
     </br>

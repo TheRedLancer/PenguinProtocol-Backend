@@ -18,15 +18,14 @@ def query_db():
         data = request.json
         print("query_db():", data)
         rows = dbh.select_db(db, data["sel"], data["table"], data["where"])
-        return json.dumps([dict(x) for x in rows]), 200
+        return json.dumps(rows), 200
         
 
 @api.route("/get-table-names", methods=["GET"])
 def get_table_names():
     with sl.connect('penguin-protocol.db') as db:
-        db.row_factory = sl.Row
         rows = dbh.print_db(db)
-        return json.dumps([dict(x) for x in rows]), 200
+        return json.dumps({"table-names": [x[0] for x in rows]}), 200
 
 @api.route("/", methods=["GET"])
 def test():
@@ -39,8 +38,8 @@ def add_location():
         print("add_location() data:", data)
         entry = (data["name"], data["address"], data["city"], data["country"])
         print("add_location() entry:", entry)
-        dbh.add_instance(db, "LOCATION (name, address, city, country)", entry)
-    return jsonify({"success": True}), 201
+        id = dbh.add_instance(db, "LOCATION (name, address, city, country)", entry)
+    return jsonify({"id": id, "success": True}), 201
 
 @api.route("/add-user", methods=["POST"])
 def add_user():
@@ -49,8 +48,8 @@ def add_user():
         print("add_user() data:", data)
         entry = (data["name"], data["sem_attend"], data["program"])
         print("add_user() entry:", entry)
-        dbh.add_instance(db, "USER (name, sem_attend, program)", entry)
-    return jsonify({"success": True}), 201
+        id = dbh.add_instance(db, "USER (name, sem_attend, program)", entry)
+    return jsonify({"id": id, "success": True}), 201
 
 @api.route("/add-review", methods=["POST"])
 def add_review():
@@ -59,8 +58,8 @@ def add_review():
         print("add_review() data:", data)
         entry = (data["user"], data["date"], data["location"], data["text"], data["stars"], data["price"])
         print("add_review() entry:", entry)
-        dbh.add_instance(db, "REVIEW (user, date, location, text, stars, price)", entry)
-    return jsonify({"success": True}), 201
+        id = dbh.add_instance(db, "REVIEW (user, date, location, text, stars, price)", entry)
+    return jsonify({"id": id, "success": True}), 201
 
 @api.route("/add-program", methods=["POST"])
 def add_program():
@@ -69,9 +68,14 @@ def add_program():
         print("add_program() data:", data)
         entry = (data["name"], data["school"], data["city"], data["country"])
         print("add_program() entry:", entry)
-        dbh.add_instance(db, "PROGRAM (name, school, city, country)", entry)
-    return jsonify({"success": True}), 201
+        id = dbh.add_instance(db, "PROGRAM (name, school, city, country)", entry)
+    return jsonify({"id": id, "success": True}), 201
 
+@api.route("/test_post", methods=["POST"])
+def test_post():
+    data = request.get_data
+    print(type(data))
+    return data, 202
 
 if __name__ == "__main__":
     api.run(host='0.0.0.0', port=80, debug=True)

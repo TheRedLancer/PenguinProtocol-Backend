@@ -70,12 +70,15 @@ def select_db(database: Connection, sel: str, table: str, where: str = ""):
         query = query + " WHERE " + where
     print("QUERY:", query)
     rows = cur.execute(query).fetchall()
-    return rows
+    rows_json = [dict((cur.description[i][0], value) \
+               for i, value in enumerate(row)) for row in rows]
+    return {"rows": rows_json}
 
 def add_instance(database: Connection, table: str, entry):
     cur = database.cursor()
     q_marks = "?," * len(entry)
     cur.execute("INSERT INTO " + table + " VALUES (" + q_marks[0:-1] + ")", entry)
+    return cur.lastrowid
 
 def fill_table_test(database: Connection):
     sql_file = open("add-crap.sql", "r")
