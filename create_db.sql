@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS USER (
     sem_attend TEXT NOT NULL,
     program INTEGER,
     FOREIGN KEY (program) 
-        REFERENCES PROGRAM(pid)
+        REFERENCES PROGRAM(name)
 );
 
 CREATE TABLE IF NOT EXISTS REVIEW (
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS REVIEW (
     stars INTEGER NOT NULL CHECK (stars >= 1 AND stars <= 5),
     price INTEGER NOT NULL CHECK (price >= 1 AND price <= 3),
     FOREIGN KEY (user) 
-        REFERENCES USER (uid),
+        REFERENCES USER (name),
     FOREIGN KEY (location) 
-        REFERENCES LOCATION (lid)
+        REFERENCES LOCATION (name)
 );

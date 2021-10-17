@@ -11,17 +11,18 @@ with sl.connect('penguin-protocol.db') as db:
 api = Flask(__name__)
 cors = CORS(api)
 
-@api.route("/basic-query", methods=["GET"])
+@api.route("/basic-query", methods=["POST"])
 def query_db():
+    data = request.get_data().decode("utf-8")
+    data = json.loads(data)
     with sl.connect('penguin-protocol.db') as db:
         db.row_factory = sl.Row
-        data = request.json
         print("query_db():", data)
         rows = dbh.select_db(db, data["sel"], data["table"], data["where"])
         return json.dumps(rows), 200
         
 
-@api.route("/get-table-names", methods=["GET"])
+@api.route("/get-table-names", methods=["POST"])
 def get_table_names():
     with sl.connect('penguin-protocol.db') as db:
         rows = dbh.print_db(db)
@@ -34,9 +35,12 @@ def test():
 @api.route("/add-location", methods=["POST"])
 def add_location():
     with sl.connect('penguin-protocol.db') as db:
-        data = request.json
+        data = request.get_data().decode("utf-8")
+        data = json.loads(data)
         print("add_location() data:", data)
+
         entry = (data["name"], data["address"], data["city"], data["country"])
+
         print("add_location() entry:", entry)
         id = dbh.add_instance(db, "LOCATION (name, address, city, country)", entry)
     return jsonify({"id": id, "success": True}), 201
@@ -44,9 +48,12 @@ def add_location():
 @api.route("/add-user", methods=["POST"])
 def add_user():
     with sl.connect('penguin-protocol.db') as db:
-        data = request.json
+        data = request.get_data().decode("utf-8")
+        data = json.loads(data)
         print("add_user() data:", data)
+
         entry = (data["name"], data["sem_attend"], data["program"])
+
         print("add_user() entry:", entry)
         id = dbh.add_instance(db, "USER (name, sem_attend, program)", entry)
     return jsonify({"id": id, "success": True}), 201
@@ -54,9 +61,12 @@ def add_user():
 @api.route("/add-review", methods=["POST"])
 def add_review():
     with sl.connect('penguin-protocol.db') as db:
-        data = request.json
+        data = request.get_data().decode("utf-8")
+        data = json.loads(data)
         print("add_review() data:", data)
+
         entry = (data["user"], data["date"], data["location"], data["text"], data["stars"], data["price"])
+
         print("add_review() entry:", entry)
         id = dbh.add_instance(db, "REVIEW (user, date, location, text, stars, price)", entry)
     return jsonify({"id": id, "success": True}), 201
@@ -64,17 +74,21 @@ def add_review():
 @api.route("/add-program", methods=["POST"])
 def add_program():
     with sl.connect('penguin-protocol.db') as db:
-        data = request.json
+        data = request.get_data().decode("utf-8")
+        data = json.loads(data)
         print("add_program() data:", data)
+
         entry = (data["name"], data["school"], data["city"], data["country"])
+        
         print("add_program() entry:", entry)
         id = dbh.add_instance(db, "PROGRAM (name, school, city, country)", entry)
     return jsonify({"id": id, "success": True}), 201
 
 @api.route("/test_post", methods=["POST"])
 def test_post():
-    data = request.get_data
-    print(type(data))
+    data = request.get_data().decode("utf-8")
+    data = json.loads(data)
+    print(data)
     return data, 202
 
 if __name__ == "__main__":
