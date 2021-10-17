@@ -26,8 +26,8 @@ def database():
 
         # print("*" * 20)
 
-        # r = requests.get(url + "/basic-query", data=json.dumps({"sel": "*", "table": "REVIEW", "where": "stars >= 4"}), headers={'Content-type': 'application/json'})
-        # print(r.text)
+        r = requests.post(url + "/basic-query", data=json.dumps({"sel": "*", "table": "LOCATION", "where": "country = \"Italy\""}), headers={'Content-type': 'application/json'})
+        print(r.text)
 
         # data = {"name": "bbq", "address": "848 Main", "city": "Paris", "country": "France"}
         # print("add_location() data:", data)
@@ -45,8 +45,8 @@ def database():
         # for row in rows["rows"]:
         #     print(row)
         # #print(json.dumps({"rows": rows}, indent=4))
-        r = requests.get(url + "/basic-query", data=json.dumps({"sel": "*", "table": "PROGRAM", "where": ""}), headers={'Content-type': 'application/json'})
-        print(json.dumps(json.loads(r.text), indent=2))  
+        # r = requests.get(url + "/basic-query", data=json.dumps({"sel": "*", "table": "PROGRAM", "where": ""}), headers={'Content-type': 'application/json'})
+        # print(json.dumps(json.loads(r.text), indent=2))  
 
 
 def main():

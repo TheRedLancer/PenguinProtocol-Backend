@@ -1,4 +1,5 @@
 from flask import Flask, json, jsonify, request
+from flask.wrappers import Response
 from flask_cors import CORS, cross_origin
 import sqlite3 as sl
 import databse_helper as dbh
@@ -13,10 +14,10 @@ cors = CORS(api)
 
 @api.route("/basic-query", methods=["POST"])
 def query_db():
-    data = request.get_data().decode("utf-8")
-    data = json.loads(data)
+    print(request.get_data())
     with sl.connect('penguin-protocol.db') as db:
-        db.row_factory = sl.Row
+        data = request.get_data().decode("utf-8")
+        data = json.loads(data)
         print("query_db():", data)
         rows = dbh.select_db(db, data["sel"], data["table"], data["where"])
         return json.dumps(rows), 200
@@ -79,7 +80,7 @@ def add_program():
         print("add_program() data:", data)
 
         entry = (data["name"], data["school"], data["city"], data["country"])
-        
+
         print("add_program() entry:", entry)
         id = dbh.add_instance(db, "PROGRAM (name, school, city, country)", entry)
     return jsonify({"id": id, "success": True}), 201
