@@ -18,19 +18,19 @@ CREATE TABLE IF NOT EXISTS USER (
     uid INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     sem_attend TEXT NOT NULL,
-    program INTEGER,
-    FOREIGN KEY (program) 
+    program TEXT,
+    FOREIGN KEY (program)
         REFERENCES PROGRAM(name)
 );
 
 CREATE TABLE IF NOT EXISTS REVIEW (
     rid INTEGER PRIMARY KEY,
-    user INTEGER NOT NULL,
-    date INTEGER NOT NULL,
+    user TEXT NOT NULL,
+    date TEXT NOT NULL,
     location TEXT NOT NULL,
     text TEXT NOT NULL,
-    stars INTEGER NOT NULL CHECK (stars >= 1 AND stars <= 5),
-    price INTEGER NOT NULL CHECK (price >= 1 AND price <= 3),
+    stars TEXT NOT NULL,
+    price TEXT NOT NULL,
     FOREIGN KEY (user) 
         REFERENCES USER (name),
     FOREIGN KEY (location) 
